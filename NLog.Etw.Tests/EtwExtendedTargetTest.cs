@@ -73,9 +73,9 @@ namespace NLog.Etw.Tests
 				logger.Warn("test-warn");
 				logger.Error("test-error");
 				logger.Fatal("test-fatal");
-
-				Thread.Sleep(10000);
 			}
+
+			Thread.Sleep(10000);
 
 			var collectedEvents = new List<ExtendedEtwEvent>(5);
 			using (var source = new ETWTraceEventSource(fpath))
