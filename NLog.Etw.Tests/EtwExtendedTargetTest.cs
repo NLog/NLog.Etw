@@ -74,7 +74,7 @@ namespace NLog.Etw.Tests
 				logger.Error("test-error");
 				logger.Fatal("test-fatal");
 
-				Thread.Sleep(5000);
+				Thread.Sleep(10000);
 			}
 
 			var collectedEvents = new List<ExtendedEtwEvent>(5);
@@ -103,7 +103,7 @@ namespace NLog.Etw.Tests
 				new ExtendedEtwEvent { EventId = 4, LoggerName = "A", Level = TraceEventLevel.Error, Message = "ERROR|A|test-error" },
 				new ExtendedEtwEvent { EventId = 5, LoggerName = "A", Level = TraceEventLevel.Critical, Message = "FATAL|A|test-fatal" }
 			};
-			Assert.Equal(collectedEvents, expectedEvents);
+			Assert.Equal(expectedEvents, collectedEvents);
 		}
 	}
 }
