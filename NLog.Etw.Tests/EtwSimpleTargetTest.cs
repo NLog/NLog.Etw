@@ -88,7 +88,7 @@ namespace NLog.Etw.Tests
                 new SimpleEtwEvent { Level = TraceEventLevel.Critical, Message = "FATAL|A|test-fatal" }
             };
             resetEvent.WaitOne(20000);
-            Assert.Equal(expectedEvents.Length, collectedEvents.Countm);
+            Assert.Equal(expectedEvents.Length, collectedEvents.Count);
             Assert.Equal(expectedEvents, collectedEvents);
         }
     }
