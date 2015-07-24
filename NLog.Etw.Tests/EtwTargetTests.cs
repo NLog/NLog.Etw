@@ -90,7 +90,7 @@ namespace NLog.Etw.Tests
                 new SimpleEtwEvent { Level = TraceEventLevel.Error, Message = "ERROR|A|test-error" },
                 new SimpleEtwEvent { Level = TraceEventLevel.Critical, Message = "FATAL|A|test-fatal" }
             };
-            resetEvent.WaitOne();
+            resetEvent.WaitOne(20000);
             Assert.Equal(expectedEvents, collectedEvents);
         }
     }
