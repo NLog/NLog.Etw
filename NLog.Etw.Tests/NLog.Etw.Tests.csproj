@@ -51,7 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EtwTargetTests.cs" />
+    <Compile Include="EtwSimpleTargetTest.cs" />
+    <Compile Include="EtwExtendedTargetTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
