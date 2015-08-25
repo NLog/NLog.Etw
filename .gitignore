@@ -140,6 +140,8 @@ publish/
 **/packages/*
 # except build/, which is used as an MSBuild target.
 !**/packages/build/
+# except .targets for etw testing
+!packages/Microsoft.Diagnostics.Tracing.TraceEvent.1.0.12/tools/Microsoft.Diagnostics.Tracing.TraceEvent.targets
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/packages/repositories.config
 
