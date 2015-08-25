@@ -6,15 +6,12 @@
     <title>NLog.Etw</title>
     <authors>NLog</authors>
     <owners>NLog</owners>
-    <licenseUrl>https://github.com/NLog/NLog-Contrib/blob/master/LICENSE</licenseUrl>
+    <licenseUrl>https://github.com/NLog/NLog.Etw/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/NLog/NLog.Etw</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Integrates NLog with ETW.</description>
-    <releaseNotes>Community contributed custom target for NLog.</releaseNotes>
-    <copyright>Copyright 2015</copyright>
+    <releaseNotes>Upgraded to NLog 4.0</releaseNotes>
+    <copyright>Copyright 2014</copyright>
     <tags>nlog target etw</tags>
-    <dependencies>
-	<dependency id="NLog" version="3.2.0" />
-    </dependencies>
   </metadata>
- </package>
+</package>
