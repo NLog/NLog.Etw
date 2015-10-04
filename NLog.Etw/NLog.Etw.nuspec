@@ -13,6 +13,7 @@
     <releaseNotes>Community contributed custom target for NLog.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>nlog target etw</tags>
+    <iconUrl>http://nlog-project.org/N.png</iconUrl>
     <dependencies>
 	<dependency id="NLog" version="3.2.0" />
     </dependencies>
