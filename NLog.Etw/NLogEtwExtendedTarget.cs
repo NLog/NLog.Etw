@@ -43,7 +43,7 @@ namespace NLog.Etw
                 WriteEvent(5, LoggerName, Message);
             }
 
-            public readonly static EtwLogger Log = new EtwLogger();
+            internal readonly static EtwLogger Log = new EtwLogger();
         }
 
         /// <summary>
