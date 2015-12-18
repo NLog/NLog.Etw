@@ -3,6 +3,7 @@ using NLog.Targets;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.Eventing;
+using NLog.Common;
 
 namespace Nlog.Etw
 {
@@ -44,9 +45,9 @@ namespace Nlog.Etw
             {
                 provider = new EventProvider(providerId);
             }
-            catch (PlatformNotSupportedException)
+            catch (PlatformNotSupportedException ex)
             {
-                // sorry :(
+                InternalLogger.Error("InitializeTarget failed: " + ex);
             }
         }
 

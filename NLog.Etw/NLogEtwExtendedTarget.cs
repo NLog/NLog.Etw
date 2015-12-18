@@ -61,25 +61,27 @@ namespace NLog.Etw
             {
                 return;
             }
+
+            var message = Layout.Render(logEvent);
             if (logEvent.Level == LogLevel.Debug || logEvent.Level == LogLevel.Trace)
             {
-                EtwLogger.Log.Verbose(logEvent.LoggerName, Layout.Render(logEvent));
+                EtwLogger.Log.Verbose(logEvent.LoggerName, message);
             }
             else if (logEvent.Level == LogLevel.Info)
             {
-                EtwLogger.Log.Info(logEvent.LoggerName, Layout.Render(logEvent));
+                EtwLogger.Log.Info(logEvent.LoggerName, message);
             }
             else if (logEvent.Level == LogLevel.Warn)
             {
-                EtwLogger.Log.Warn(logEvent.LoggerName, Layout.Render(logEvent));
+                EtwLogger.Log.Warn(logEvent.LoggerName, message);
             }
             else if (logEvent.Level == LogLevel.Error)
             {
-                EtwLogger.Log.Error(logEvent.LoggerName, Layout.Render(logEvent));
+                EtwLogger.Log.Error(logEvent.LoggerName, message);
             }
             else //if (logEvent.Level == LogLevel.Fatal)
             {
-                EtwLogger.Log.Critical(logEvent.LoggerName, Layout.Render(logEvent));
+                EtwLogger.Log.Critical(logEvent.LoggerName, message);
             }
         }
     }
