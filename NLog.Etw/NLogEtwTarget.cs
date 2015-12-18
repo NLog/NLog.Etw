@@ -23,9 +23,11 @@ namespace Nlog.Etw
         /// <summary>
         /// A provider guid that will be used in ETW tracing.
         /// </summary>
-        public String ProviderId {
+        public string ProviderId
+        {
             get { return providerId.ToString(); }
-            set {
+            set
+            {
                 providerId = Guid.Parse(value);
             }
         }
@@ -33,13 +35,17 @@ namespace Nlog.Etw
         /// <summary>
         /// Initialize.
         /// </summary>
-        protected override void InitializeTarget() {
+        protected override void InitializeTarget()
+        {
             base.InitializeTarget();
 
             // we will create an EventProvider for ETW
-            try {
+            try
+            {
                 provider = new EventProvider(providerId);
-            } catch (PlatformNotSupportedException) {
+            }
+            catch (PlatformNotSupportedException)
+            {
                 // sorry :(
             }
         }
@@ -48,31 +54,42 @@ namespace Nlog.Etw
         /// Write to event to ETW.
         /// </summary>
         /// <param name="logEvent">event to be written.</param>
-        protected override void Write(LogEventInfo logEvent) {
-            if (provider == null || !provider.IsEnabled()) {
+        protected override void Write(LogEventInfo logEvent)
+        {
+            if (provider == null || !provider.IsEnabled())
+            {
                 return;
             }
             byte t;
-            if (logEvent.Level == LogLevel.Debug || logEvent.Level == LogLevel.Trace) {
+            if (logEvent.Level == LogLevel.Debug || logEvent.Level == LogLevel.Trace)
+            {
                 t = 5;
-            } else if (logEvent.Level == LogLevel.Info) {
-                t = 4;
-            } else if (logEvent.Level == LogLevel.Warn) {
-                t = 3;
-            } else if (logEvent.Level == LogLevel.Error) {
-                t = 2;
-            } else if (logEvent.Level == LogLevel.Fatal) {
-                t = 1;
-            } else {
-                t = 5; // let it be verbose
             }
+            else if (logEvent.Level == LogLevel.Info)
+            {
+                t = 4;
+            }
+            else if (logEvent.Level == LogLevel.Warn)
+            {
+                t = 3;
+            }
+            else if (logEvent.Level == LogLevel.Error)
+            {
+                t = 2;
+            }
+            else //if (logEvent.Level == LogLevel.Fatal)
+            {
+                t = 1;
+            }
+         
             provider.WriteMessageEvent(this.Layout.Render(logEvent), t, 0);
         }
 
         /// <summary>
         /// Close and dispose.
         /// </summary>
-        protected override void CloseTarget() {
+        protected override void CloseTarget()
+        {
             base.CloseTarget();
 
             provider.Dispose();

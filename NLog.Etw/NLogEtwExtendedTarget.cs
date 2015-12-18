@@ -19,27 +19,32 @@ namespace NLog.Etw
         private sealed class EtwLogger : EventSource
         {
             [Event(1, Level = EventLevel.Verbose)]
-            public void Verbose(String LoggerName, String Message) {
+            public void Verbose(string LoggerName, string Message)
+            {
                 WriteEvent(1, LoggerName, Message);
             }
 
             [Event(2, Level = EventLevel.Informational)]
-            public void Info(String LoggerName, String Message) {
+            public void Info(string LoggerName, string Message)
+            {
                 WriteEvent(2, LoggerName, Message);
             }
 
             [Event(3, Level = EventLevel.Warning)]
-            public void Warn(String LoggerName, String Message) {
+            public void Warn(string LoggerName, string Message)
+            {
                 WriteEvent(3, LoggerName, Message);
             }
 
             [Event(4, Level = EventLevel.Error)]
-            public void Error(String LoggerName, String Message) {
+            public void Error(string LoggerName, string Message)
+            {
                 WriteEvent(4, LoggerName, Message);
             }
 
             [Event(5, Level = EventLevel.Critical)]
-            public void Critical(String LoggerName, String Message) {
+            public void Critical(string LoggerName, string Message)
+            {
                 WriteEvent(5, LoggerName, Message);
             }
 
@@ -56,15 +61,24 @@ namespace NLog.Etw
             {
                 return;
             }
-            if (logEvent.Level == LogLevel.Debug || logEvent.Level == LogLevel.Trace) {
+            if (logEvent.Level == LogLevel.Debug || logEvent.Level == LogLevel.Trace)
+            {
                 EtwLogger.Log.Verbose(logEvent.LoggerName, Layout.Render(logEvent));
-            } else if (logEvent.Level == LogLevel.Info) {
+            }
+            else if (logEvent.Level == LogLevel.Info)
+            {
                 EtwLogger.Log.Info(logEvent.LoggerName, Layout.Render(logEvent));
-            } else if (logEvent.Level == LogLevel.Warn) {
+            }
+            else if (logEvent.Level == LogLevel.Warn)
+            {
                 EtwLogger.Log.Warn(logEvent.LoggerName, Layout.Render(logEvent));
-            } else if (logEvent.Level == LogLevel.Error) {
+            }
+            else if (logEvent.Level == LogLevel.Error)
+            {
                 EtwLogger.Log.Error(logEvent.LoggerName, Layout.Render(logEvent));
-            } else if (logEvent.Level == LogLevel.Fatal) {
+            }
+            else //if (logEvent.Level == LogLevel.Fatal)
+            {
                 EtwLogger.Log.Critical(logEvent.LoggerName, Layout.Render(logEvent));
             }
         }

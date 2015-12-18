@@ -20,11 +20,12 @@ namespace NLog.Etw.Tests
 
             public int EventId { get; set; }
 
-            public String LoggerName { get; set; }
+            public string LoggerName { get; set; }
 
-            public String Message { get; set; }
+            public string Message { get; set; }
 
-            public override bool Equals(object obj) {
+            public override bool Equals(object obj)
+            {
                 if (obj == null)
                     return false;
                 if (obj == this)
@@ -36,14 +37,16 @@ namespace NLog.Etw.Tests
                         && ev.LoggerName.Equals(this.LoggerName, StringComparison.Ordinal) && ev.EventId == this.EventId;
             }
 
-            public override int GetHashCode() {
+            public override int GetHashCode()
+            {
                 return Message.GetHashCode();
             }
         }
 
         private readonly NLogEtwExtendedTarget etwTarget;
 
-        public EtwExtendedTargetTest() {
+        public EtwExtendedTargetTest()
+        {
             // setup NLog configuration
             var loggingConfiguration = new LoggingConfiguration();
             this.etwTarget = new NLogEtwExtendedTarget() { Layout = Layout.FromString("${uppercase:${level}}|${logger}|${message}") };
@@ -54,9 +57,11 @@ namespace NLog.Etw.Tests
         }
 
         [Fact]
-        public void Writing_Message_To_Etw() {
+        public void Writing_Message_To_Etw()
+        {
             var fpath = Path.Combine(Path.GetTempPath(), "_etwnlogtest.etl");
-            using (var session = new TraceEventSession("SimpleMonitorSession", fpath)) {
+            using (var session = new TraceEventSession("SimpleMonitorSession", fpath))
+            {
                 //var eventSourceGuid = TraceEventProviders.GetEventSourceGuidFromName("MyEventSource");
                 var eventSourceGuid = TraceEventProviders.GetEventSourceGuidFromName("LowLevelDesign-NLogEtwSource");
                 session.EnableProvider(eventSourceGuid);
@@ -68,19 +73,25 @@ namespace NLog.Etw.Tests
                 logger.Warn("test-warn");
                 logger.Error("test-error");
                 logger.Fatal("test-fatal");
+                session.DisableProvider(eventSourceGuid);
+
+                logger.Fatal("don't log this one");
 
                 Thread.Sleep(5000);
             }
 
             var collectedEvents = new List<ExtendedEtwEvent>(5);
-            using (var source = new ETWTraceEventSource(fpath)) {
+            using (var source = new ETWTraceEventSource(fpath))
+            {
                 var parser = new DynamicTraceEventParser(source);
-                parser.All += delegate(TraceEvent data) {
-                    collectedEvents.Add(new ExtendedEtwEvent {
+                parser.All += delegate (TraceEvent data)
+                {
+                    collectedEvents.Add(new ExtendedEtwEvent
+                    {
                         EventId = (int)data.ID,
                         Level = data.Level,
-                        LoggerName = (String)data.PayloadByName("LoggerName"),
-                        Message = (String)data.PayloadByName("Message")
+                        LoggerName = (string)data.PayloadByName("LoggerName"),
+                        Message = (string)data.PayloadByName("Message")
                     });
                 };
                 source.Process();
