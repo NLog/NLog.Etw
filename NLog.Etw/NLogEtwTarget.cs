@@ -23,7 +23,7 @@ namespace Nlog.Etw
         /// <summary>
         /// A provider guid that will be used in ETW tracing.
         /// </summary>
-        public String ProviderId
+        public string ProviderId
         {
             get { return providerId.ToString(); }
             set

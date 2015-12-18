@@ -20,9 +20,9 @@ namespace NLog.Etw.Tests
 
             public int EventId { get; set; }
 
-            public String LoggerName { get; set; }
+            public string LoggerName { get; set; }
 
-            public String Message { get; set; }
+            public string Message { get; set; }
 
             public override bool Equals(object obj)
             {
@@ -87,8 +87,8 @@ namespace NLog.Etw.Tests
                     {
                         EventId = (int)data.ID,
                         Level = data.Level,
-                        LoggerName = (String)data.PayloadByName("LoggerName"),
-                        Message = (String)data.PayloadByName("Message")
+                        LoggerName = (string)data.PayloadByName("LoggerName"),
+                        Message = (string)data.PayloadByName("Message")
                     });
                 };
                 source.Process();

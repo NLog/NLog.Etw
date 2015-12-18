@@ -19,31 +19,31 @@ namespace NLog.Etw
         private sealed class EtwLogger : EventSource
         {
             [Event(1, Level = EventLevel.Verbose)]
-            public void Verbose(String LoggerName, String Message)
+            public void Verbose(string LoggerName, string Message)
             {
                 WriteEvent(1, LoggerName, Message);
             }
 
             [Event(2, Level = EventLevel.Informational)]
-            public void Info(String LoggerName, String Message)
+            public void Info(string LoggerName, string Message)
             {
                 WriteEvent(2, LoggerName, Message);
             }
 
             [Event(3, Level = EventLevel.Warning)]
-            public void Warn(String LoggerName, String Message)
+            public void Warn(string LoggerName, string Message)
             {
                 WriteEvent(3, LoggerName, Message);
             }
 
             [Event(4, Level = EventLevel.Error)]
-            public void Error(String LoggerName, String Message)
+            public void Error(string LoggerName, string Message)
             {
                 WriteEvent(4, LoggerName, Message);
             }
 
             [Event(5, Level = EventLevel.Critical)]
-            public void Critical(String LoggerName, String Message)
+            public void Critical(string LoggerName, string Message)
             {
                 WriteEvent(5, LoggerName, Message);
             }

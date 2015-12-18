@@ -18,7 +18,7 @@ namespace NLog.Etw.Tests
         {
             public TraceEventLevel Level { get; set; }
 
-            public String Message { get; set; }
+            public string Message { get; set; }
 
             public override bool Equals(object obj)
             {
