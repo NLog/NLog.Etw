@@ -77,7 +77,7 @@ namespace NLog.Etw
             {
                 EtwLogger.Log.Error(logEvent.LoggerName, Layout.Render(logEvent));
             }
-            else if (logEvent.Level == LogLevel.Fatal)
+            else //if (logEvent.Level == LogLevel.Fatal)
             {
                 EtwLogger.Log.Critical(logEvent.LoggerName, Layout.Render(logEvent));
             }

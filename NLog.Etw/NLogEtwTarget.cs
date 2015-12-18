@@ -77,14 +77,11 @@ namespace Nlog.Etw
             {
                 t = 2;
             }
-            else if (logEvent.Level == LogLevel.Fatal)
+            else //if (logEvent.Level == LogLevel.Fatal)
             {
                 t = 1;
             }
-            else
-            {
-                t = 5; // let it be verbose
-            }
+         
             provider.WriteMessageEvent(this.Layout.Render(logEvent), t, 0);
         }
 
