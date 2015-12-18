@@ -46,6 +46,10 @@ namespace NLog.Etw
             public readonly static EtwLogger Log = new EtwLogger();
         }
 
+        /// <summary>
+        /// Write to event to ETW.
+        /// </summary>
+        /// <param name="logEvent">event to be written.</param>
         protected override void Write(LogEventInfo logEvent)
         {
             if (!EtwLogger.Log.IsEnabled())
