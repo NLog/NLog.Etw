@@ -73,6 +73,9 @@ namespace NLog.Etw.Tests
                 logger.Warn("test-warn");
                 logger.Error("test-error");
                 logger.Fatal("test-fatal");
+                session.DisableProvider(eventSourceGuid);
+
+                logger.Fatal("don't log this one");
 
                 Thread.Sleep(5000);
             }

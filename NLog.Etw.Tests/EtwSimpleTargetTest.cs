@@ -53,6 +53,12 @@ namespace NLog.Etw.Tests
         }
 
         [Fact]
+        public void CheckProviderId()
+        {
+            Assert.Equal(this.etwTarget.ProviderId, providerId.ToString());
+        }
+
+        [Fact]
         public void Writing_Message_To_Etw()
         {
             var resetEvent = new ManualResetEvent(false);
@@ -68,6 +74,10 @@ namespace NLog.Etw.Tests
                 logger.Warn("test-warn");
                 logger.Error("test-error");
                 logger.Fatal("test-fatal");
+
+                session.DisableProvider(providerId);
+
+                logger.Fatal("don't log this one");
             }
 
             var collectedEvents = new List<SimpleEtwEvent>(5);
