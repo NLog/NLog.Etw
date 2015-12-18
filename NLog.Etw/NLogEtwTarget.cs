@@ -30,6 +30,9 @@ namespace Nlog.Etw
             }
         }
 
+        /// <summary>
+        /// Initialize.
+        /// </summary>
         protected override void InitializeTarget() {
             base.InitializeTarget();
 
@@ -41,6 +44,10 @@ namespace Nlog.Etw
             }
         }
 
+        /// <summary>
+        /// Write to event to ETW.
+        /// </summary>
+        /// <param name="logEvent">event to be written.</param>
         protected override void Write(LogEventInfo logEvent) {
             if (provider == null || !provider.IsEnabled()) {
                 return;
@@ -62,6 +69,9 @@ namespace Nlog.Etw
             provider.WriteMessageEvent(this.Layout.Render(logEvent), t, 0);
         }
 
+        /// <summary>
+        /// Close and dispose.
+        /// </summary>
         protected override void CloseTarget() {
             base.CloseTarget();
 
