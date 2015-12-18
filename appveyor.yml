@@ -1,4 +1,5 @@
 version: 4.0.0.{build}
+clone_folder: c:\projects\nlog
 configuration: Release
 platform: Any CPU
 assembly_info:
@@ -11,9 +12,16 @@ nuget:
   project_feed: true
   disable_publish_on_pr: true
 before_build:
-- ps: nuget restore
+  - nuget restore -DisableParallelProcessing
 build:
   publish_nuget: true
   publish_nuget_symbols: true
   verbosity: normal
 deploy: off
+test_script:
+  - nuget.exe install OpenCover -ExcludeVersion
+  - OpenCover\tools\OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:"\"c:\projects\nlog\NLog.Etw.Tests\bin\Release\NLog.Etw.Tests.dll\" -appveyor -noshadow"  -returntargetcode -filter:"+[NLog.Etw]*" -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml
+  - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
+  - pip install codecov
+  - codecov -f "coverage.xml"
+ 
