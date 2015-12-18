@@ -20,7 +20,8 @@ namespace NLog.Etw.Tests
 
             public String Message { get; set; }
 
-            public override bool Equals(object obj) {
+            public override bool Equals(object obj)
+            {
                 if (obj == null)
                     return false;
                 if (obj == this)
@@ -31,7 +32,8 @@ namespace NLog.Etw.Tests
                 return ev.Level == this.Level && ev.Message.Equals(this.Message, StringComparison.Ordinal);
             }
 
-            public override int GetHashCode() {
+            public override int GetHashCode()
+            {
                 return Message.GetHashCode();
             }
         }
@@ -39,7 +41,8 @@ namespace NLog.Etw.Tests
         private readonly NLogEtwTarget etwTarget;
         private readonly Guid providerId = Guid.NewGuid();
 
-        public EtwSimpleTargetTest() {
+        public EtwSimpleTargetTest()
+        {
             // setup NLog configuration
             var loggingConfiguration = new LoggingConfiguration();
             this.etwTarget = new NLogEtwTarget() { ProviderId = providerId.ToString(), Layout = Layout.FromString("${uppercase:${level}}|${logger}|${message}") };
@@ -54,7 +57,8 @@ namespace NLog.Etw.Tests
         {
             var resetEvent = new ManualResetEvent(false);
             var fpath = Path.Combine(Path.GetTempPath(), "_etwnlogtest.etl");
-            using (var session = new TraceEventSession("SimpleMonitorSession", fpath)) {
+            using (var session = new TraceEventSession("SimpleMonitorSession", fpath))
+            {
                 session.EnableProvider(providerId);
 
                 // send events to session
@@ -67,13 +71,15 @@ namespace NLog.Etw.Tests
             }
 
             var collectedEvents = new List<SimpleEtwEvent>(5);
-            using (var source = new ETWTraceEventSource(fpath)) {
-                source.UnhandledEvents += delegate(TraceEvent data) {
-                                                                        collectedEvents.Add(new SimpleEtwEvent { Level = data.Level, Message = data.FormattedMessage });
-                                                                        if (collectedEvents.Count == 5)
-                                                                        {
-                                                                            resetEvent.Set();
-                                                                        }
+            using (var source = new ETWTraceEventSource(fpath))
+            {
+                source.UnhandledEvents += delegate (TraceEvent data)
+                {
+                    collectedEvents.Add(new SimpleEtwEvent { Level = data.Level, Message = data.FormattedMessage });
+                    if (collectedEvents.Count == 5)
+                    {
+                        resetEvent.Set();
+                    }
                 };
                 source.Process();
             }
