@@ -15,4 +15,8 @@
     <tags>nlog target etw</tags>
     <iconUrl>http://nlog-project.org/N.png</iconUrl>
   </metadata>
+  <files>
+    <file src="RegisterEvents\RegisterEvents.*" target="Content\RegisterEvents" />
+    <file src="RegisterEvents\ReadMe.txt" target="Content\RegisterEvents" />
+  </files>
  </package>
