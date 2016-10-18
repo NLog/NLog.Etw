@@ -63,7 +63,7 @@ namespace NLog.Etw.Tests
             using (var session = new TraceEventSession("SimpleMonitorSession", fpath))
             {
                 //var eventSourceGuid = TraceEventProviders.GetEventSourceGuidFromName("MyEventSource");
-                var eventSourceGuid = TraceEventProviders.GetEventSourceGuidFromName("LowLevelDesign-NLogEtwSource");
+                var eventSourceGuid = TraceEventProviders.GetEventSourceGuidFromName("NLog-LogEvents");
                 session.EnableProvider(eventSourceGuid);
 
                 // send events to session
