@@ -10,8 +10,6 @@ This package is an extension to [NLog](https://github.com/NLog/NLog/).
 
 ## Getting started
 
-See the included Sample at /src/NLog.Signalr.Sample.Web and /src/NLog.SignalR.Sample.Command for an example of running two clients (web and console) at the same time and having log messages appear on the web log page from both sources.
-
 To add to your own projects do the following.
 
 #### Add NLog.Etw.dll to your project(s) via [NuGet](http://www.nuget.org/packages/NLog.Etw/)
