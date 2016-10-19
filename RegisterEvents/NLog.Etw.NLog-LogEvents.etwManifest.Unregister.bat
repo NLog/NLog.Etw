@@ -1,1 +1,0 @@
-wevtutil.exe um NLog.Etw.NLog-LogEvents.etwManifest.man

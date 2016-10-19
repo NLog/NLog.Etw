@@ -4,15 +4,17 @@ using Microsoft.Diagnostics.Tracing;
 namespace NLog.Etw
 {
     /// <summary>
-    /// A NLog target with support for channel-enabled ETW tracing. When using perfview or wpr to record the events use *NLog-LogEvents
+    /// A NLog target with support for channel-enabled ETW tracing. When using perfview or wpr to record the events use *LowLevelDesign-NLogEtwSource
     /// to enable the NLog provider.
+    /// 
+    /// Sample configuration and usage sample can be found on my blog: http://lowleveldesign.wordpress.com/2014/04/18/etw-providers-for-nlog/
     /// 
     /// Channel alignment based on best practices documented here: https://blogs.msdn.microsoft.com/vancem/2012/08/14/etw-in-c-controlling-which-events-get-logged-in-an-system-diagnostics-tracing-eventsource/ 
     /// </summary>
     [Target("ExtendedEventTracing")]
     public sealed class NLogEtwExtendedTarget : TargetWithLayout
     {
-        [EventSource(Name = "NLog-LogEvents")]
+        [EventSource(Name = "LowLevelDesign-NLogEtwSource")]
         private sealed class EtwLogger : EventSource
         {
             [Event(1, Level = EventLevel.Verbose, Message = "{0}: {1}", Channel = EventChannel.Debug)]
