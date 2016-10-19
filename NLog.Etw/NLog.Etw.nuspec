@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Integrates NLog with ETW.</description>
     <releaseNotes></releaseNotes>
-    <copyright>Copyright 2015</copyright>
+    <copyright>Copyright 2016</copyright>
     <tags>nlog target etw</tags>
     <iconUrl>http://nlog-project.org/N.png</iconUrl>
   </metadata>
