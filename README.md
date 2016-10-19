@@ -7,3 +7,41 @@ NLog.Etw
 [![codecov.io](https://codecov.io/github/NLog/NLog.Etw/coverage.svg?branch=master)](https://codecov.io/github/NLog/NLog.Etw?branch=master)
 
 This package is an extension to [NLog](https://github.com/NLog/NLog/). 
+
+## Getting started
+
+To add to your own projects do the following.
+
+#### Add NLog.Etw.dll to your project(s) via [NuGet](http://www.nuget.org/packages/NLog.Etw/)
+
+  > install-package NLog.Etw
+
+#### Configure NLog
+
+Add the assembly and new target to NLog.config:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<nlog   xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        autoReload="true"
+        throwExceptions="false">
+
+      <!-- extensions is not needed in NLog 4+ -->
+      <extensions>
+        <add assembly="NLog.Etw" />
+      </extensions>
+
+      <targets async="true">
+        <target xsi:type="ExtendedEventTracing"
+                name="eetw"
+                layout="${longdate}|${uppercase:${level}}|${message}${onexception:|Exception occurred\:${exception:format=tostring}}"
+              />
+
+    </targets>
+    
+    <rules>
+      <logger name="*" minlevel="Trace" writeTo="eetw" />
+    </rules>
+</nlog>
+```
