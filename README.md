@@ -45,23 +45,3 @@ Add the assembly and new target to NLog.config:
     </rules>
 </nlog>
 ```
-
-#### Register Events (optional)
-
-If you desire to leverage the Windows Event Viewer (and channel-related Event Logs), you may install the event manifest on the target machine(s).
-1. Copy RegisterEvents.exe to the target machine.
-2. Run RegisterEvents.exe as Administrator.
-   * This will copy the manifest and resource files to the %SystemRoot%\System32\ folder: 
-     * NLog.Etw.NLog-LogEvents.etwManifest.man
-     * NLog.Etw.NLog-LogEvents.etwManifest.dll
-   * ... and then register the manifest.
-   * (Unregister by running %SystemRoot%\System32\NLog.Etw.NLog-LogEvents.etwManifest.Unregister.bat)
-3. You may then use your favorite tool to verify that the provider is installed: 
-
-```shell
-c:\>logman query providers
-```
-4. Use Windows Event Viewer to view, enable, or disable channel logs.
-   1. Expand Applications and Services Logs
-   2. Expand NLog-LogEvents
-   3. (Optionally) Enable debug log (disabled by default).
