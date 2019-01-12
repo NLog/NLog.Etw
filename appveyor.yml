@@ -1,27 +1,28 @@
-version: 4.0.1.{build}
+version: 4.2.0.{build}
+image: Visual Studio 2017
 clone_folder: c:\projects\nlog
 configuration: Release
 platform: Any CPU
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: '4.0.0'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '4.1.0'
+skip_tags: true
 nuget:
   project_feed: true
   disable_publish_on_pr: true
 before_build:
-  - nuget restore -DisableParallelProcessing
+  - msbuild /t:restore c:\projects\nlog\NLog.Etw.sln /verbosity:minimal
 build:
-  publish_nuget: true
-  publish_nuget_symbols: true
-  verbosity: normal
+  publish_nuget: false
+  publish_nuget_symbols: false
+  verbosity: minimal
+after_build:
+  - msbuild /t:pack c:\projects\nlog\NLog.Etw.sln /p:Version=4.2.0.0 /p:fileversion=%APPVEYOR_BUILD_VERSION% /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:PackageOutputPath=..\artifacts /verbosity:minimal
+artifacts:
+  - path: 'artifacts\*.nupkg'
+  - path: 'artifacts\*.snupkg'
 deploy: off
 test_script:
-  - nuget.exe install OpenCover -ExcludeVersion
-  - OpenCover\tools\OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:"\"c:\projects\nlog\NLog.Etw.Tests\bin\Release\NLog.Etw.Tests.dll\" -appveyor -noshadow"  -returntargetcode -filter:"+[NLog.Etw]*" -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml
+  - msbuild /t:build c:\projects\nlog\NLog.Etw.sln /p:Version=%APPVEYOR_BUILD_VERSION% /p:Configuration=Debug /p:IncludeSymbols=true /verbosity:minimal
+  - nuget.exe install OpenCover -ExcludeVersion -DependencyVersion Ignore
+  - OpenCover\tools\OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:"\"c:\projects\nlog\NLog.Etw.Tests\bin\Debug\net452\NLog.Etw.Tests.dll\" -appveyor -noshadow"  -returntargetcode -filter:"+[NLog.Etw]*" -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml
   - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
   - pip install codecov
   - codecov -f "coverage.xml"
- 

@@ -1,5 +1,10 @@
-﻿using NLog.Targets;
+﻿#if NET45
 using Microsoft.Diagnostics.Tracing;
+#else
+using System.Diagnostics.Tracing;
+#endif
+using NLog.Layouts;
+using NLog.Targets;
 
 namespace NLog.Etw
 {
@@ -56,31 +61,45 @@ namespace NLog.Etw
         /// <param name="logEvent">event to be written.</param>
         protected override void Write(LogEventInfo logEvent)
         {
-            if (!EtwLogger.Log.IsEnabled())
+            if (EtwLogger.Log.IsEnabled())
             {
-                return;
-            }
-
-            var message = Layout.Render(logEvent);
-            if (logEvent.Level == LogLevel.Debug || logEvent.Level == LogLevel.Trace)
-            {
-                EtwLogger.Log.Verbose(logEvent.LoggerName, message);
-            }
-            else if (logEvent.Level == LogLevel.Info)
-            {
-                EtwLogger.Log.Info(logEvent.LoggerName, message);
-            }
-            else if (logEvent.Level == LogLevel.Warn)
-            {
-                EtwLogger.Log.Warn(logEvent.LoggerName, message);
-            }
-            else if (logEvent.Level == LogLevel.Error)
-            {
-                EtwLogger.Log.Error(logEvent.LoggerName, message);
-            }
-            else //if (logEvent.Level == LogLevel.Fatal)
-            {
-                EtwLogger.Log.Critical(logEvent.LoggerName, message);
+                if (logEvent.Level == LogLevel.Debug || logEvent.Level == LogLevel.Trace)
+                {
+                    if (EtwLogger.Log.IsEnabled(EventLevel.Verbose, EventKeywords.None))
+                    {
+                        var message = Layout.Render(logEvent);
+                        EtwLogger.Log.Verbose(logEvent.LoggerName, message);
+                    }
+                }
+                else if (logEvent.Level == LogLevel.Info)
+                {
+                    if (EtwLogger.Log.IsEnabled(EventLevel.Informational, EventKeywords.None))
+                    {
+                        var message = Layout.Render(logEvent);
+                        EtwLogger.Log.Info(logEvent.LoggerName, message);
+                    }
+                }
+                else if (logEvent.Level == LogLevel.Warn)
+                {
+                    if (EtwLogger.Log.IsEnabled(EventLevel.Warning, EventKeywords.None))
+                    {
+                        var message = Layout.Render(logEvent);
+                        EtwLogger.Log.Warn(logEvent.LoggerName, message);
+                    }
+                }
+                else if (logEvent.Level == LogLevel.Error)
+                {
+                    if (EtwLogger.Log.IsEnabled(EventLevel.Error, EventKeywords.None))
+                    {
+                        var message = Layout.Render(logEvent);
+                        EtwLogger.Log.Error(logEvent.LoggerName, message);
+                    }
+                }
+                else //if (logEvent.Level == LogLevel.Fatal)
+                {
+                    var message = Layout.Render(logEvent);
+                    EtwLogger.Log.Critical(logEvent.LoggerName, message);
+                }
             }
         }
     }

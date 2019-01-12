@@ -14,35 +14,6 @@ namespace NLog.Etw.Tests
 {
     public class EtwExtendedTargetTest
     {
-        class ExtendedEtwEvent
-        {
-            public TraceEventLevel Level { get; set; }
-
-            public int EventId { get; set; }
-
-            public string LoggerName { get; set; }
-
-            public string Message { get; set; }
-
-            public override bool Equals(object obj)
-            {
-                if (obj == null)
-                    return false;
-                if (obj == this)
-                    return true;
-                var ev = obj as ExtendedEtwEvent;
-                if (ev == null)
-                    return false;
-                return ev.Level == this.Level && ev.Message.Equals(this.Message, StringComparison.Ordinal)
-                        && ev.LoggerName.Equals(this.LoggerName, StringComparison.Ordinal) && ev.EventId == this.EventId;
-            }
-
-            public override int GetHashCode()
-            {
-                return Message.GetHashCode();
-            }
-        }
-
         private readonly NLogEtwExtendedTarget etwTarget;
 
         public EtwExtendedTargetTest()
@@ -59,12 +30,26 @@ namespace NLog.Etw.Tests
         [Fact]
         public void Writing_Message_To_Etw()
         {
+            var providerName = "LowLevelDesign-NLogEtwSource";
+            var resetEvent = new ManualResetEvent(false);
             var fpath = Path.Combine(Path.GetTempPath(), "_etwnlogtest.etl");
             using (var session = new TraceEventSession("SimpleMonitorSession", fpath))
             {
-                //var eventSourceGuid = TraceEventProviders.GetEventSourceGuidFromName("MyEventSource");
-                var eventSourceGuid = TraceEventProviders.GetEventSourceGuidFromName("LowLevelDesign-NLogEtwSource");
-                session.EnableProvider(eventSourceGuid);
+                Thread.Sleep(1000);
+
+                var eventSourceGuid = TraceEventProviders.GetEventSourceGuidFromName(providerName);
+
+                try
+                {
+                    session.EnableProvider(eventSourceGuid);
+                    Thread.Sleep(1000);
+                }
+                catch
+                {
+                    Thread.Sleep(1000);
+                    eventSourceGuid = TraceEventProviders.GetEventSourceGuidFromName(providerName);
+                    session.EnableProvider(eventSourceGuid);
+                }
 
                 // send events to session
                 var logger = LogManager.GetLogger("A");
@@ -73,39 +58,56 @@ namespace NLog.Etw.Tests
                 logger.Warn("test-warn");
                 logger.Error("test-error");
                 logger.Fatal("test-fatal");
-                session.DisableProvider(eventSourceGuid);
+
+                try
+                {
+                    Thread.Sleep(1000);
+                    session.DisableProvider(eventSourceGuid);
+                }
+                catch
+                {
+                    Thread.Sleep(1000);
+                    session.DisableProvider(eventSourceGuid);
+                }
+
+                Thread.Sleep(1000);
 
                 logger.Fatal("don't log this one");
-
-                Thread.Sleep(5000);
             }
 
-            var collectedEvents = new List<ExtendedEtwEvent>(5);
+            var collectedEvents = new List<NLogEtwEventData>(5);
             using (var source = new ETWTraceEventSource(fpath))
             {
                 var parser = new DynamicTraceEventParser(source);
                 parser.All += delegate (TraceEvent data)
                 {
-                    collectedEvents.Add(new ExtendedEtwEvent
+                    if (data.Level == TraceEventLevel.Always)
+                        return;   // Not ours
+
+                    collectedEvents.Add(new NLogEtwEventData(data)
                     {
-                        EventId = (int)data.ID,
-                        Level = data.Level,
                         LoggerName = (string)data.PayloadByName("LoggerName"),
                         Message = (string)data.PayloadByName("Message")
                     });
+
+                    if (collectedEvents.Count == 5)
+                    {
+                        resetEvent.Set();
+                    }
                 };
                 source.Process();
             }
             File.Delete(fpath);
 
             // assert collected events
-            var expectedEvents = new ExtendedEtwEvent[] {
-                new ExtendedEtwEvent { EventId = 1, LoggerName = "A", Level = TraceEventLevel.Verbose, Message = "DEBUG|A|test-debug" },
-                new ExtendedEtwEvent { EventId = 2, LoggerName = "A", Level = TraceEventLevel.Informational, Message = "INFO|A|test-info" },
-                new ExtendedEtwEvent { EventId = 3, LoggerName = "A", Level = TraceEventLevel.Warning, Message = "WARN|A|test-warn" },
-                new ExtendedEtwEvent { EventId = 4, LoggerName = "A", Level = TraceEventLevel.Error, Message = "ERROR|A|test-error" },
-                new ExtendedEtwEvent { EventId = 5, LoggerName = "A", Level = TraceEventLevel.Critical, Message = "FATAL|A|test-fatal" }
+            var expectedEvents = new NLogEtwEventData[] {
+                new NLogEtwEventData { EventId = 1, ProviderName = providerName, TaskName = "Verbose", LoggerName = "A", Level = TraceEventLevel.Verbose, Message = "DEBUG|A|test-debug" },
+                new NLogEtwEventData { EventId = 2, ProviderName = providerName, TaskName = "Info", LoggerName = "A", Level = TraceEventLevel.Informational, Message = "INFO|A|test-info" },
+                new NLogEtwEventData { EventId = 3, ProviderName = providerName, TaskName = "Warn", LoggerName = "A", Level = TraceEventLevel.Warning, Message = "WARN|A|test-warn" },
+                new NLogEtwEventData { EventId = 4, ProviderName = providerName, TaskName = "Error", LoggerName = "A", Level = TraceEventLevel.Error, Message = "ERROR|A|test-error" },
+                new NLogEtwEventData { EventId = 5, ProviderName = providerName, TaskName = "Critical", LoggerName = "A", Level = TraceEventLevel.Critical, Message = "FATAL|A|test-fatal" }
             };
+            resetEvent.WaitOne(20000);
             Assert.Equal(collectedEvents, expectedEvents);
         }
     }
