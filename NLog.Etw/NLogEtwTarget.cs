@@ -1,4 +1,6 @@
-﻿using NLog;
+﻿#if !NETSTANDARD
+
+using NLog;
 using NLog.Targets;
 using System;
 using System.Diagnostics;
@@ -97,3 +99,5 @@ namespace Nlog.Etw
         }
     }
 }
+
+#endif
