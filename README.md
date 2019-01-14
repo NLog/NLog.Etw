@@ -22,22 +22,22 @@ Add the assembly and new target to NLog.config:
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
-<nlog   xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        autoReload="true"
-        throwExceptions="false">
+<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      autoReload="true"
+      throwExceptions="false">
 
-      <!-- extensions is not needed in NLog 4+ -->
-      <extensions>
+    <extensions>
         <add assembly="NLog.Etw" />
-      </extensions>
+    </extensions>
 
-      <targets async="true">
-        <target xsi:type="ExtendedEventTracing"
+    <targets async="true">
+        <target xsi:type="EtwEventSource"
                 name="eetw"
-                layout="${longdate}|${uppercase:${level}}|${message}${onexception:|Exception occurred\:${exception:format=tostring}}"
+				providerName="MyEventSourceName"
+				taskName="${level}"
+                layout="${message}"
               />
-
     </targets>
     
     <rules>
