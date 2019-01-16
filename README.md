@@ -34,8 +34,8 @@ Add the assembly and new target to NLog.config:
     <targets async="true">
         <target xsi:type="EtwEventSource"
                 name="eetw"
-				providerName="MyEventSourceName"
-				taskName="${level}"
+                providerName="MyEventSourceName"
+                taskName="${level}"
                 layout="${message}"
               />
     </targets>
@@ -44,4 +44,28 @@ Add the assembly and new target to NLog.config:
       <logger name="*" minlevel="Trace" writeTo="eetw" />
     </rules>
 </nlog>
+```
+
+#### Write to own custom EventSource
+
+```c#
+[EventSource(Name = "MyEventSourceName")]
+public class MyEventSource : EventSource, NLog.Etw.INLogEventSource
+{
+    /// <inheritdoc/>
+    [NonEvent]
+    public void Write(EventLevel eventLevel, string layoutMessage, LogEventInfo logEvent)
+    {
+        // TODO Call own custom logging-method
+    }
+
+    /// <inheritdoc/>
+    EventSource EventSource { get { return this; } }
+
+    internal readonly static MyEventSource Log = new MyEventSource();
+}
+
+var config = new NLog.Config.LoggingConfiguration();
+config.AddRuleForAllLevels(new NLog.Etw.NLogEtwExtendedTarget(MyEventSource.Log) { Name = "eetw" });
+NLog.LogManager.Configuration = config;
 ```

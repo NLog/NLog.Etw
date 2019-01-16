@@ -20,7 +20,7 @@ namespace NLog.Etw
     public sealed class NLogEtwExtendedTarget : TargetWithLayout
     {
         [EventSource(Name = "LowLevelDesign-NLogEtwSource")]
-        private sealed class EtwLogger : EventSource
+        private sealed class EtwLogger : EventSource, INLogEventSource
         {
             [Event(1, Level = EventLevel.Verbose, Message = "{0}: {1}", Channel = EventChannel.Debug)]
             public void Verbose(string LoggerName, string Message)
@@ -53,6 +53,52 @@ namespace NLog.Etw
             }
 
             internal readonly static EtwLogger Log = new EtwLogger();
+
+            [NonEvent]
+            void INLogEventSource.Write(EventLevel eventLevel, string layoutMessage, LogEventInfo logEvent)
+            {
+                switch (eventLevel)
+                {
+                    case EventLevel.Verbose:
+                        Verbose(logEvent.LoggerName, layoutMessage);
+                        break;
+                    case EventLevel.Informational:
+                        Info(logEvent.LoggerName, layoutMessage);
+                        break;
+                    case EventLevel.Warning:
+                        Warn(logEvent.LoggerName, layoutMessage);
+                        break;
+                    case EventLevel.Error:
+                        Error(logEvent.LoggerName, layoutMessage);
+                        break;
+                    default:
+                        Critical(logEvent.LoggerName, layoutMessage);
+                        break;
+                }
+            }
+
+            EventSource INLogEventSource.EventSource { get { return this; } }
+        }
+
+        /// <summary>
+        /// Public property that allows the NLog Configuration Engine to recognize any NLog Layout on custom EventSource-implementation
+        /// </summary>
+        public INLogEventSource EventSource { get; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EtwEventSourceTarget"/> class.
+        /// </summary>
+        public NLogEtwExtendedTarget()
+        {
+            EventSource = EtwLogger.Log;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EtwEventSourceTarget"/> class.
+        /// </summary>
+        public NLogEtwExtendedTarget(INLogEventSource eventSource)
+        {
+            EventSource = eventSource;
         }
 
         /// <summary>
@@ -61,44 +107,44 @@ namespace NLog.Etw
         /// <param name="logEvent">event to be written.</param>
         protected override void Write(LogEventInfo logEvent)
         {
-            if (EtwLogger.Log.IsEnabled())
+            if (EventSource?.EventSource?.IsEnabled()==true)
             {
                 if (logEvent.Level == LogLevel.Debug || logEvent.Level == LogLevel.Trace)
                 {
-                    if (EtwLogger.Log.IsEnabled(EventLevel.Verbose, EventKeywords.None))
+                    if (EventSource.EventSource.IsEnabled(EventLevel.Verbose, EventKeywords.None))
                     {
                         var message = Layout.Render(logEvent);
-                        EtwLogger.Log.Verbose(logEvent.LoggerName, message);
+                        EventSource.Write(EventLevel.Verbose, message, logEvent);
                     }
                 }
                 else if (logEvent.Level == LogLevel.Info)
                 {
-                    if (EtwLogger.Log.IsEnabled(EventLevel.Informational, EventKeywords.None))
+                    if (EventSource.EventSource.IsEnabled(EventLevel.Informational, EventKeywords.None))
                     {
                         var message = Layout.Render(logEvent);
-                        EtwLogger.Log.Info(logEvent.LoggerName, message);
+                        EventSource.Write(EventLevel.Informational, message, logEvent);
                     }
                 }
                 else if (logEvent.Level == LogLevel.Warn)
                 {
-                    if (EtwLogger.Log.IsEnabled(EventLevel.Warning, EventKeywords.None))
+                    if (EventSource.EventSource.IsEnabled(EventLevel.Warning, EventKeywords.None))
                     {
                         var message = Layout.Render(logEvent);
-                        EtwLogger.Log.Warn(logEvent.LoggerName, message);
+                        EventSource.Write(EventLevel.Warning, message, logEvent);
                     }
                 }
                 else if (logEvent.Level == LogLevel.Error)
                 {
-                    if (EtwLogger.Log.IsEnabled(EventLevel.Error, EventKeywords.None))
+                    if (EventSource.EventSource.IsEnabled(EventLevel.Error, EventKeywords.None))
                     {
                         var message = Layout.Render(logEvent);
-                        EtwLogger.Log.Error(logEvent.LoggerName, message);
+                        EventSource.Write(EventLevel.Error, message, logEvent);
                     }
                 }
                 else //if (logEvent.Level == LogLevel.Fatal)
                 {
                     var message = Layout.Render(logEvent);
-                    EtwLogger.Log.Critical(logEvent.LoggerName, message);
+                    EventSource.Write(EventLevel.Critical, message, logEvent);
                 }
             }
         }
