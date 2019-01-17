@@ -3,7 +3,6 @@
 using NLog;
 using NLog.Targets;
 using System;
-using System.Diagnostics;
 using System.Diagnostics.Eventing;
 using NLog.Common;
 
@@ -28,11 +27,8 @@ namespace Nlog.Etw
         /// </summary>
         public string ProviderId
         {
-            get { return providerId.ToString(); }
-            set
-            {
-                providerId = Guid.Parse(value);
-            }
+            get => providerId.ToString();
+            set => providerId = Guid.Parse(value);
         }
 
         /// <summary>
@@ -85,7 +81,7 @@ namespace Nlog.Etw
                 t = 1;
             }
          
-            provider.WriteMessageEvent(this.Layout.Render(logEvent), t, 0);
+            provider.WriteMessageEvent(Layout.Render(logEvent), t, 0);
         }
 
         /// <summary>

@@ -102,22 +102,28 @@ namespace NLog.Targets
                 var message = Layout.Render(logEvent);
                 var taskName = EventTaskName?.Render(logEvent) ?? string.Empty;
 
-                var sourceOptions = new EventSourceOptions();
-                sourceOptions.Level = level;
-                sourceOptions.Opcode = EventOpcode.Info;
+                var sourceOptions = new EventSourceOptions
+                {
+                    Level = level,
+                    Opcode = EventOpcode.Info
+                };
                 if (logEvent.Exception != null)
                 {
-                    var eventData = new NLogEventDataException();
-                    eventData.LoggerName = logEvent.LoggerName;
-                    eventData.Message = message;
-                    eventData.Exception = logEvent.Exception.ToString();
+                    var eventData = new NLogEventDataException
+                    {
+                        LoggerName = logEvent.LoggerName,
+                        Message = message,
+                        Exception = logEvent.Exception.ToString()
+                    };
                     _eventSource.Write(taskName, ref sourceOptions, ref eventData);
                 }
                 else
                 {
-                    var eventData = new NLogEventData();
-                    eventData.LoggerName = logEvent.LoggerName;
-                    eventData.Message = message;
+                    var eventData = new NLogEventData
+                    {
+                        LoggerName = logEvent.LoggerName,
+                        Message = message
+                    };
                     _eventSource.Write(taskName, ref sourceOptions, ref eventData);
                 }
             }

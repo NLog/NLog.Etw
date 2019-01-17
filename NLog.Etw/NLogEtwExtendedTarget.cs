@@ -3,7 +3,6 @@ using Microsoft.Diagnostics.Tracing;
 #else
 using System.Diagnostics.Tracing;
 #endif
-using NLog.Layouts;
 using NLog.Targets;
 
 namespace NLog.Etw
@@ -46,7 +45,7 @@ namespace NLog.Etw
                 WriteEvent(4, LoggerName, Message);
             }
 
-            [Event(5, Level = EventLevel.Critical, Message="{0}: {1}", Channel = EventChannel.Admin)]
+            [Event(5, Level = EventLevel.Critical, Message = "{0}: {1}", Channel = EventChannel.Admin)]
             public void Critical(string LoggerName, string Message)
             {
                 WriteEvent(5, LoggerName, Message);
@@ -77,7 +76,7 @@ namespace NLog.Etw
                 }
             }
 
-            EventSource INLogEventSource.EventSource { get { return this; } }
+            EventSource INLogEventSource.EventSource => this;
         }
 
         /// <summary>
@@ -107,45 +106,42 @@ namespace NLog.Etw
         /// <param name="logEvent">event to be written.</param>
         protected override void Write(LogEventInfo logEvent)
         {
-            if (EventSource?.EventSource?.IsEnabled()==true)
+            if (EventSource?.EventSource?.IsEnabled() == true)
             {
                 if (logEvent.Level == LogLevel.Debug || logEvent.Level == LogLevel.Trace)
                 {
-                    if (EventSource.EventSource.IsEnabled(EventLevel.Verbose, EventKeywords.None))
-                    {
-                        var message = Layout.Render(logEvent);
-                        EventSource.Write(EventLevel.Verbose, message, logEvent);
-                    }
+                    WriteEvent(logEvent, EventLevel.Verbose);
                 }
                 else if (logEvent.Level == LogLevel.Info)
                 {
-                    if (EventSource.EventSource.IsEnabled(EventLevel.Informational, EventKeywords.None))
-                    {
-                        var message = Layout.Render(logEvent);
-                        EventSource.Write(EventLevel.Informational, message, logEvent);
-                    }
+                    WriteEvent(logEvent, EventLevel.Informational);
                 }
                 else if (logEvent.Level == LogLevel.Warn)
                 {
-                    if (EventSource.EventSource.IsEnabled(EventLevel.Warning, EventKeywords.None))
-                    {
-                        var message = Layout.Render(logEvent);
-                        EventSource.Write(EventLevel.Warning, message, logEvent);
-                    }
+                    WriteEvent(logEvent, EventLevel.Warning);
                 }
                 else if (logEvent.Level == LogLevel.Error)
                 {
-                    if (EventSource.EventSource.IsEnabled(EventLevel.Error, EventKeywords.None))
-                    {
-                        var message = Layout.Render(logEvent);
-                        EventSource.Write(EventLevel.Error, message, logEvent);
-                    }
+                    WriteEvent(logEvent, EventLevel.Error);
                 }
                 else //if (logEvent.Level == LogLevel.Fatal)
                 {
-                    var message = Layout.Render(logEvent);
-                    EventSource.Write(EventLevel.Critical, message, logEvent);
+                    WriteEvent(logEvent, EventLevel.Critical);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Write to event source, if enabled for that level
+        /// </summary>
+        /// <param name="logEvent"></param>
+        /// <param name="level"></param>
+        private void WriteEvent(LogEventInfo logEvent, EventLevel level)
+        {
+            if (EventSource.EventSource.IsEnabled(level, EventKeywords.None))
+            {
+                var message = Layout.Render(logEvent);
+                EventSource.Write(level, message, logEvent);
             }
         }
     }
