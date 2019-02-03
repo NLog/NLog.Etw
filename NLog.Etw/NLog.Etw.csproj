@@ -15,7 +15,7 @@
     </PackageReleaseNotes>
     <PackageIconUrl>https://nlog-project.org/N.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/NLog/NLog.Etw</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/NLog/NLog-Contrib/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/NLog/NLog.Etw/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/NLog/NLog.Etw.git</RepositoryUrl>
 
