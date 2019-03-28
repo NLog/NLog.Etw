@@ -49,18 +49,18 @@
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <PackageReference Include="Microsoft.Diagnostics.Tracing.EventSource.Redist" Version="1.1.28" />
-    <PackageReference Include="NLog" Version="4.0.0" />
+    <PackageReference Include="NLog" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <PackageReference Include="NLog" Version="4.0.0" />
+    <PackageReference Include="NLog" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <PackageReference Include="NLog" Version="4.5.0" />
+    <PackageReference Include="NLog" Version="4.6.0" />
   </ItemGroup>
 
   <PropertyGroup>
