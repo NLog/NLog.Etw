@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
-    <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="1.0.23 " />
+    <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="2.0.40 " />
   </ItemGroup>
 
   <ItemGroup>
