@@ -18,7 +18,13 @@ after_build:
 artifacts:
   - path: 'artifacts\*.nupkg'
   - path: 'artifacts\*.snupkg'
-deploy: off
+deploy:
+- provider: NuGet
+  api_key:
+    secure: DtVDH1ZfIR8E2oDLeSPxfn0WFXw3MCv4WhLkkQQl9LfEHswb5sdxdCYodNKhrKik
+  artifact: /.*\.nupkg/
+  on:
+    branch: master
 test_script:
   - msbuild /t:build c:\projects\nlog\NLog.Etw.sln /p:Version=%APPVEYOR_BUILD_VERSION% /p:Configuration=Debug /p:IncludeSymbols=true /verbosity:minimal
   - nuget.exe install OpenCover -ExcludeVersion -DependencyVersion Ignore
