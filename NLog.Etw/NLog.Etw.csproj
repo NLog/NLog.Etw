@@ -48,7 +48,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <PackageReference Include="Microsoft.Diagnostics.Tracing.EventSource.Redist" Version="1.1.28" />
+    <PackageReference Include="Microsoft.Diagnostics.Tracing.EventSource.Redist" Version="2.0.1" />
     <PackageReference Include="NLog" Version="4.6.7" />
   </ItemGroup>
 
