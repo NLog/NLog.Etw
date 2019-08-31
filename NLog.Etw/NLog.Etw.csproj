@@ -11,7 +11,7 @@
 
     <PackageTags>NLog;ETW;tracing;windows;logging;log</PackageTags>
     <PackageReleaseNotes>
-
+Updated to lastest NLog version
     </PackageReleaseNotes>
     <PackageIconUrl>https://nlog-project.org/N.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/NLog/NLog.Etw</PackageProjectUrl>
