@@ -13,7 +13,7 @@
     <PackageReleaseNotes>
 Updated to latest NLog version
     </PackageReleaseNotes>
-    <PackageIconUrl>https://nlog-project.org/N.png</PackageIconUrl>
+    <PackageIcon>N.png</PackageIcon>
     <PackageProjectUrl>https://github.com/NLog/NLog.Etw</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageLicenseUrl>https://github.com/NLog/NLog.Etw/blob/master/LICENSE</PackageLicenseUrl>
@@ -67,5 +67,12 @@ Updated to latest NLog version
   <PropertyGroup>
     <AssemblyTitle>$(Title)</AssemblyTitle>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="N.png" Pack="true" PackagePath="" Visible="false" />
+  </ItemGroup>
+  <Target Name="DownloadMissingContent" BeforeTargets="GenerateNuspec">
+    <DownloadFile SourceUrl="https://nlog-project.org/N.png" DestinationFolder="$(MSBuildThisFileDirectory)" />
+  </Target>
 
 </Project>
