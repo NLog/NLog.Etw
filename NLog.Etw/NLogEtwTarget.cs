@@ -80,8 +80,9 @@ namespace Nlog.Etw
             {
                 t = 1;
             }
-         
-            provider.WriteMessageEvent(Layout.Render(logEvent), t, 0);
+
+            var message = RenderLogEvent(Layout, logEvent);
+            provider.WriteMessageEvent(message, t, 0);
         }
 
         /// <summary>

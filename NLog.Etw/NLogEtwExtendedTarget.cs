@@ -140,7 +140,7 @@ namespace NLog.Etw
         {
             if (EventSource.EventSource.IsEnabled(level, EventKeywords.None))
             {
-                var message = Layout.Render(logEvent);
+                var message = RenderLogEvent(Layout, logEvent);
                 EventSource.Write(level, message, logEvent);
             }
         }
