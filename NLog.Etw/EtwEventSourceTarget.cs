@@ -42,7 +42,7 @@ namespace NLog.Targets
         /// <inheritdoc/>
         protected override void InitializeTarget()
         {
-            var providerName = (ProviderName?.Render(LogEventInfo.CreateNullEvent()) ?? string.Empty).Trim();
+            var providerName = RenderLogEvent(ProviderName, LogEventInfo.CreateNullEvent())?.Trim();
             if (string.IsNullOrEmpty(providerName))
             {
                 throw new NLogConfigurationException("EtwEventSourceTarget - ProviderName must be configured");
@@ -99,8 +99,8 @@ namespace NLog.Targets
         {
             if (_eventSource.IsEnabled(level, EventKeywords.None))
             {
-                var message = Layout.Render(logEvent);
-                var taskName = EventTaskName?.Render(logEvent) ?? string.Empty;
+                var message = RenderLogEvent(Layout, logEvent);
+                var taskName = RenderLogEvent(EventTaskName, logEvent) ?? string.Empty;
 
                 var sourceOptions = new EventSourceOptions
                 {
