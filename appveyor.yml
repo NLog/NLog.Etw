@@ -13,7 +13,7 @@ build:
   publish_nuget: false
   publish_nuget_symbols: false
   verbosity: minimal
-after_build:
+build_script:
   - msbuild /t:pack c:\projects\nlog\NLog.Etw.sln /p:Version=4.3.0.0 /p:fileversion=%APPVEYOR_BUILD_VERSION% /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:PackageOutputPath=..\artifacts /verbosity:minimal /p:ContinuousIntegrationBuild=true
 artifacts:
   - path: 'artifacts\*.nupkg'
