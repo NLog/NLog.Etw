@@ -1,5 +1,5 @@
-version: 4.3.0.{build}
-image: Visual Studio 2017
+version: 5.0.0.{build}
+image: Visual Studio 2022
 clone_folder: c:\projects\nlog
 configuration: Release
 platform: Any CPU
@@ -14,7 +14,7 @@ build:
   publish_nuget_symbols: false
   verbosity: minimal
 after_build:
-  - msbuild /t:pack c:\projects\nlog\NLog.Etw.sln /p:Version=4.3.0.0 /p:fileversion=%APPVEYOR_BUILD_VERSION% /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:PackageOutputPath=..\artifacts /verbosity:minimal
+  - msbuild /t:pack c:\projects\nlog\NLog.Etw.sln /p:Version=5.0.0.0 /p:fileversion=%APPVEYOR_BUILD_VERSION% /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:PackageOutputPath=..\artifacts /verbosity:minimal
 artifacts:
   - path: 'artifacts\*.nupkg'
   - path: 'artifacts\*.snupkg'
