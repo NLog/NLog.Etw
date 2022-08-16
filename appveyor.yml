@@ -9,10 +9,6 @@ nuget:
   disable_publish_on_pr: true
 before_build:
   - msbuild /t:restore c:\projects\nlog\NLog.Etw.sln /verbosity:minimal
-build:
-  publish_nuget: false
-  publish_nuget_symbols: false
-  verbosity: minimal
 build_script:
   - msbuild /t:pack c:\projects\nlog\NLog.Etw.sln /p:Version=4.3.0.0 /p:fileversion=%APPVEYOR_BUILD_VERSION% /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:PackageOutputPath=..\artifacts /verbosity:minimal /p:ContinuousIntegrationBuild=true
 artifacts:
