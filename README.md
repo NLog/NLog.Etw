@@ -40,7 +40,7 @@ Example of `NLog.config`-file that writes to ETW:
 </nlog>
 ```
 
-## Custome EventSource
+## Example Custome EventSource
 
 Example of providing own custom EventSource for writing events:
 
