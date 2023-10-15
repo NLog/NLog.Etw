@@ -13,6 +13,8 @@
     <PackageReleaseNotes>
 - Updated to NLog v5.2.2
 - Added package README.md
+
+See https://github.com/NLog/NLog.Etw for documentation of NLog target for ETW
     </PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>N.png</PackageIcon>
