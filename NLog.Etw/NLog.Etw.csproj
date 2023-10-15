@@ -11,8 +11,10 @@
 
     <PackageTags>NLog;ETW;tracing;windows;logging;log</PackageTags>
     <PackageReleaseNotes>
-Updated to latest NLog version
+- Updated to NLog v5.2.2
+- Added package README.md
     </PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>N.png</PackageIcon>
     <PackageProjectUrl>https://github.com/NLog/NLog.Etw</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -33,27 +35,27 @@ Updated to latest NLog version
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Title>NLog.Etw .NET Framework 4.5</Title>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
-    <DebugType Condition=" '$(Configuration)' == 'Debug' ">Full</DebugType>
+    <DebugType>Full</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <Title>NLog.Etw .NET Framework 4.6</Title>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
-    <DebugType Condition=" '$(Configuration)' == 'Debug' ">Full</DebugType>
+    <DebugType>Full</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <Title>NLog.Etw .NET Standard 2.0</Title>
   </PropertyGroup>
-  
+
   <ItemGroup>
-     <PackageReference Include="NLog" Version="5.0.2" />
+    <PackageReference Include="NLog" Version="5.2.2" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
     <!-- note: Microsoft.Diagnostics.Tracing.EventSource.Redist 1.x is the latest that support net45 -->
     <PackageReference Include="Microsoft.Diagnostics.Tracing.EventSource.Redist" Version="1.1.28" />
   </ItemGroup>
@@ -61,10 +63,6 @@ Updated to latest NLog version
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
   </ItemGroup>
 
   <PropertyGroup>
@@ -72,7 +70,7 @@ Updated to latest NLog version
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <None Include="../README.md" Pack="true" PackagePath="" />
     <None Include="N.png" Pack="true" PackagePath="" Visible="false" />
   </ItemGroup>
   <Target Name="DownloadMissingContent" BeforeTargets="GenerateNuspec">

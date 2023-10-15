@@ -1,24 +1,22 @@
-NLog.Etw
-============
-
+# NLog.Etw
 
 [![Version](https://badge.fury.io/nu/NLog.Etw.svg)](https://www.nuget.org/packages/NLog.Etw)
 [![AppVeyor](https://img.shields.io/appveyor/ci/nlog/nlog-Etw/master.svg)](https://ci.appveyor.com/project/nlog/nlog-Etw/branch/master)
 [![codecov.io](https://codecov.io/github/NLog/NLog.Etw/coverage.svg?branch=master)](https://codecov.io/github/NLog/NLog.Etw?branch=master)
 
-This package is an extension to [NLog](https://github.com/NLog/NLog/). 
+NLog Target for writing logevents to Event Tracing for Windows (ETW).
 
 ## Getting started
 
 To add to your own projects do the following.
 
-#### Add NLog.Etw.dll to your project(s) via [NuGet](http://www.nuget.org/packages/NLog.Etw/)
+#### Install nuget-package to your project
 
   > install-package NLog.Etw
 
 #### Configure NLog
 
-Add the assembly and new target to NLog.config:
+Example of `NLog.config`-file that writes to ETW:
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -47,6 +45,8 @@ Add the assembly and new target to NLog.config:
 ```
 
 #### Write to own custom EventSource
+
+Example of providing own custom EventSource for writing events:
 
 ```c#
 [EventSource(Name = "MyEventSourceName")]
