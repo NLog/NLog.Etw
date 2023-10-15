@@ -6,15 +6,11 @@
 
 NLog Target for writing logevents to Event Tracing for Windows (ETW).
 
-## Getting started
+## Install nuget-package to your project:
 
-To add to your own projects do the following.
+  > dotnet add package NLog.Etw
 
-#### Install nuget-package to your project
-
-  > install-package NLog.Etw
-
-#### Configure NLog
+## Example NLog.config file
 
 Example of `NLog.config`-file that writes to ETW:
 
@@ -44,7 +40,7 @@ Example of `NLog.config`-file that writes to ETW:
 </nlog>
 ```
 
-#### Write to own custom EventSource
+## Custome EventSource
 
 Example of providing own custom EventSource for writing events:
 
