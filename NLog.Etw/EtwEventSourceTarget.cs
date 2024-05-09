@@ -16,10 +16,10 @@ namespace NLog.Targets
     [Target("EtwEventSource")]
     public class EtwEventSourceTarget : TargetWithLayout
     {
-        private static readonly ConcurrentDictionary<string, EventSource> EventSources = new ConcurrentDictionary<string, EventSource>(System.StringComparer.OrdinalIgnoreCase);
+        internal static readonly ConcurrentDictionary<string, EventSource> EventSources = new ConcurrentDictionary<string, EventSource>(System.StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
-        /// Name used for the EventSouce contructor
+        /// Name used for the <see cref="EventSource" />-contructor
         /// </summary>
         [RequiredParameter]
         public Layout ProviderName { get; set; }

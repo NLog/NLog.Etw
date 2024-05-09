@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;net46;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net45;net46;net471;netstandard2.0</TargetFrameworks>
 
     <Description>NLog target for Windows Event Tracing - ETW</Description>
     <Authors>NLog</Authors>
@@ -11,8 +11,7 @@
 
     <PackageTags>NLog;ETW;tracing;windows;logging;log</PackageTags>
     <PackageReleaseNotes>
-- Updated to NLog v5.2.2
-- Added package README.md
+- Added new EtwEventCounter-Target for writing to ETW EventCounter using WriteMetric
 
 See https://github.com/NLog/NLog.Etw for documentation of NLog target for ETW
     </PackageReleaseNotes>
@@ -31,8 +30,9 @@ See https://github.com/NLog/NLog.Etw for documentation of NLog target for ETW
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
-    <IsTrimmable>true</IsTrimmable>
+    <EnableTrimAnalyzer Condition=" '$(TargetFramework)' == 'netstandard2.0' ">true</EnableTrimAnalyzer>
+    <IsTrimmable Condition=" '$(TargetFramework)' == 'netstandard2.0' ">true</IsTrimmable>
+    <TrimMode>copyused</TrimMode>
     <!-- EmbedUntrackedSources for deterministic build -->
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
@@ -45,6 +45,12 @@ See https://github.com/NLog/NLog.Etw for documentation of NLog target for ETW
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <Title>NLog.Etw .NET Framework 4.6</Title>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <DebugType Condition=" '$(Configuration)' == 'Debug' ">Full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net471' ">
+    <Title>NLog.Etw .NET Framework 4.7.1</Title>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
     <DebugType Condition=" '$(Configuration)' == 'Debug' ">Full</DebugType>
   </PropertyGroup>
@@ -68,6 +74,12 @@ See https://github.com/NLog/NLog.Etw for documentation of NLog target for ETW
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <Reference Include="System" />
     <Reference Include="System.Core" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net471' ">
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.Tracing" />
   </ItemGroup>
 
   <PropertyGroup>

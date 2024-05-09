@@ -1,3 +1,4 @@
+#if NETFRAMEWORK
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -118,3 +119,5 @@ namespace NLog.Etw.Tests
         }
     }
 }
+
+#endif
