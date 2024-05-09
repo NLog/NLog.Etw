@@ -1,4 +1,5 @@
-﻿using Microsoft.Diagnostics.Tracing;
+﻿#if NETFRAMEWORK
+using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Parsers;
 using Microsoft.Diagnostics.Tracing.Session;
 using NLog.Config;
@@ -176,3 +177,4 @@ namespace NLog.Etw.Tests
     }
 }
 
+#endif

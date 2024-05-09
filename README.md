@@ -17,16 +17,14 @@ Example of `NLog.config`-file that writes to ETW:
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      autoReload="true"
-      throwExceptions="false">
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"">
 
     <extensions>
         <add assembly="NLog.Etw" />
     </extensions>
 
     <targets async="true">
-        <target xsi:type="EtwEventSource"
+        <target type="EtwEventSource"
                 name="eetw"
                 providerName="MyEventSourceName"
                 taskName="${level}"
@@ -64,4 +62,32 @@ public class MyEventSource : EventSource, NLog.Etw.INLogEventSource
 var config = new NLog.Config.LoggingConfiguration();
 config.AddRuleForAllLevels(new NLog.Etw.NLogEtwExtendedTarget(MyEventSource.Log) { Name = "eetw" });
 NLog.LogManager.Configuration = config;
+```
+
+### Example with EtwEventCounter Target
+
+Example of `NLog.config`-file that writes to ETW-EventCounter:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <extensions>
+        <add assembly="NLog.Etw" />
+    </extensions>
+
+    <targets async="true">
+        <target type="EtwEventCounter"
+                name="etwCounter"
+                providerName="MyEventSourceName"
+                providerName="MyEventCounterName"
+                metricValue="1"
+              />
+    </targets>
+    
+    <rules>
+      <logger name="*" minlevel="Trace" writeTo="etwCounter" />
+    </rules>
+</nlog>
 ```

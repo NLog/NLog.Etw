@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NETFRAMEWORK
+using System;
 using Microsoft.Diagnostics.Tracing;
 
 namespace NLog.Etw.Tests
@@ -57,3 +58,5 @@ namespace NLog.Etw.Tests
         }
     }
 }
+
+#endif
