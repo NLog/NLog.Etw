@@ -82,7 +82,7 @@ Example of `NLog.config`-file that writes to ETW-EventCounter:
                 name="etwCounter"
                 providerName="MyEventSourceName"
                 counterName="MyEventCounterName"
-                metricValue="${event-properties:MyMetricValue}"
+                metricValue="${event-properties:MyMetricValue:whenEmpty=1}"
               />
     </targets>
     
