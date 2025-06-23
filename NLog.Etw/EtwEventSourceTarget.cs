@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-#if NET45
-using Microsoft.Diagnostics.Tracing;
-#else
 using System.Diagnostics.Tracing;
-#endif
-using NLog.Config;
 using NLog.Layouts;
 
 namespace NLog.Targets
@@ -21,15 +16,14 @@ namespace NLog.Targets
         /// <summary>
         /// Name used for the <see cref="EventSource" />-contructor
         /// </summary>
-        [RequiredParameter]
-        public Layout ProviderName { get; set; }
+        public Layout ProviderName { get; set; } = Layout.Empty;
 
         /// <summary>
         /// Context TaskName for EventData
         /// </summary>
         public Layout EventTaskName { get; set; } = "${level}";
 
-        private EventSource _eventSource;
+        private EventSource? _eventSource;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EtwEventSourceTarget"/> class.
@@ -43,7 +37,7 @@ namespace NLog.Targets
         protected override void InitializeTarget()
         {
             var providerName = RenderLogEvent(ProviderName, LogEventInfo.CreateNullEvent())?.Trim();
-            if (string.IsNullOrEmpty(providerName))
+            if (providerName is null || string.IsNullOrEmpty(providerName))
             {
                 throw new NLogConfigurationException("EtwEventSourceTarget - ProviderName must be configured");
             }
@@ -97,7 +91,7 @@ namespace NLog.Targets
 
         private void WriteEvent(LogEventInfo logEvent, EventLevel level)
         {
-            if (_eventSource.IsEnabled(level, EventKeywords.None))
+            if (_eventSource?.IsEnabled(level, EventKeywords.None) == true)
             {
                 var message = RenderLogEvent(Layout, logEvent);
                 var taskName = RenderLogEvent(EventTaskName, logEvent) ?? string.Empty;

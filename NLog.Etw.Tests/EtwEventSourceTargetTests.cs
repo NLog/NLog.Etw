@@ -40,7 +40,9 @@ namespace NLog.Etw.Tests
             using (var session = new TraceEventSession("SimpleMonitorSession"))
             {
                 // Dynamic-Parser does not work with pure EventSource-objects
+#pragma warning disable CS0618 // Type or member is obsolete
                 session.Source.Registered.All += delegate (TraceEvent data)
+#pragma warning restore CS0618 // Type or member is obsolete
                 {
                     if (data.Level == TraceEventLevel.Always)
                         return;   // Not ours
@@ -119,7 +121,9 @@ namespace NLog.Etw.Tests
             using (var session = new TraceEventSession("SimpleMonitorSession"))
             {
                 // Dynamic-Parser does not work with pure EventSource-objects
+#pragma warning disable CS0618 // Type or member is obsolete
                 session.Source.Registered.All += delegate (TraceEvent data)
+#pragma warning restore CS0618 // Type or member is obsolete
                 {
                     if (data.Level == TraceEventLevel.Always)
                         return;   // Not ours

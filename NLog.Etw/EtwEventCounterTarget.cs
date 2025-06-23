@@ -1,12 +1,7 @@
 ﻿#if !NET46
 using System;
 using System.Collections.Concurrent;
-#if NET45
-using Microsoft.Diagnostics.Tracing;
-#else
 using System.Diagnostics.Tracing;
-#endif
-using NLog.Config;
 using NLog.Layouts;
 using NLog.Targets;
 
@@ -20,19 +15,17 @@ namespace NLog.Etw
     {
         private static readonly ConcurrentDictionary<string, EventCounter> EventCounters = new ConcurrentDictionary<string, EventCounter>(StringComparer.OrdinalIgnoreCase);
 
-        private EventCounter _eventCounter;
+        private EventCounter? _eventCounter;
 
         /// <summary>
         /// Name used for the <see cref="EventSource" />-contructor
         /// </summary>
-        [RequiredParameter]
-        public Layout ProviderName { get; set; }
+        public Layout ProviderName { get; set; } = Layout.Empty;
 
         /// <summary>
         /// Name used for the <see cref="EventCounter" />-contructor
         /// </summary>
-        [RequiredParameter]
-        public Layout CounterName { get; set; }
+        public Layout CounterName { get; set; } = Layout.Empty;
 
         /// <summary>
         /// The value by which to increment the counter.
@@ -43,13 +36,13 @@ namespace NLog.Etw
         protected override void InitializeTarget()
         {
             var providerName = RenderLogEvent(ProviderName, LogEventInfo.CreateNullEvent())?.Trim();
-            if (string.IsNullOrEmpty(providerName))
+            if (providerName is null || string.IsNullOrEmpty(providerName))
             {
                 throw new NLogConfigurationException("EtwEventCounterTarget - ProviderName must be configured");
             }
 
             var counterName = RenderLogEvent(CounterName, LogEventInfo.CreateNullEvent())?.Trim();
-            if (string.IsNullOrEmpty(counterName))
+            if (counterName is null || string.IsNullOrEmpty(counterName))
             {
                 throw new NLogConfigurationException("EtwEventCounterTarget - CounterName must be configured");
             }
