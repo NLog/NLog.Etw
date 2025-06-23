@@ -1,8 +1,4 @@
-﻿#if NET45
-using Microsoft.Diagnostics.Tracing;
-#else
-using System.Diagnostics.Tracing;
-#endif
+﻿using System.Diagnostics.Tracing;
 
 namespace NLog.Etw
 {

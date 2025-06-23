@@ -1,11 +1,7 @@
-﻿#if NETFRAMEWORK
-using Microsoft.Diagnostics.Tracing;
-#else
-using System.Diagnostics.Tracing;
-#endif
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;

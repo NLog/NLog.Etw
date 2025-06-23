@@ -19,16 +19,16 @@ namespace Nlog.Etw
     [Target("EventTracing")]
     public sealed class NLogEtwTarget : TargetWithLayout
     {
-        private EventProvider provider;
-        private Guid providerId = Guid.NewGuid();
+        private EventProvider? _provider;
+        private Guid _providerId = Guid.NewGuid();
 
         /// <summary>
         /// A provider guid that will be used in ETW tracing.
         /// </summary>
         public string ProviderId
         {
-            get => providerId.ToString();
-            set => providerId = Guid.Parse(value);
+            get => _providerId.ToString();
+            set => _providerId = Guid.Parse(value);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Nlog.Etw
             // we will create an EventProvider for ETW
             try
             {
-                provider = new EventProvider(providerId);
+                _provider = new EventProvider(_providerId);
             }
             catch (PlatformNotSupportedException ex)
             {
@@ -55,7 +55,7 @@ namespace Nlog.Etw
         /// <param name="logEvent">event to be written.</param>
         protected override void Write(LogEventInfo logEvent)
         {
-            if (provider == null || !provider.IsEnabled())
+            if (_provider == null || !_provider.IsEnabled())
             {
                 return;
             }
@@ -82,7 +82,7 @@ namespace Nlog.Etw
             }
 
             var message = RenderLogEvent(Layout, logEvent);
-            provider.WriteMessageEvent(message, t, 0);
+            _provider.WriteMessageEvent(message, t, 0);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Nlog.Etw
         {
             base.CloseTarget();
 
-            provider.Dispose();
+            _provider?.Dispose();
         }
     }
 }

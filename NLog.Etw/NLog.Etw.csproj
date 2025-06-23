@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;net46;net471;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net46;net471;netstandard2.0</TargetFrameworks>
 
     <Description>NLog target for Windows Event Tracing - ETW</Description>
     <Authors>NLog</Authors>
@@ -23,24 +23,21 @@ See https://github.com/NLog/NLog.Etw for documentation of NLog target for ETW
     <RepositoryUrl>https://github.com/NLog/NLog.Etw.git</RepositoryUrl>
 
     <SignAssembly>true</SignAssembly>
-    <AssemblyVersion>5.0.0.0</AssemblyVersion>
+    <AssemblyVersion>6.0.0.0</AssemblyVersion>
     <AssemblyOriginatorKeyFile>NLog.snk</AssemblyOriginatorKeyFile>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
 
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <EnableTrimAnalyzer Condition=" '$(TargetFramework)' == 'netstandard2.0' ">true</EnableTrimAnalyzer>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <IsTrimmable Condition=" '$(TargetFramework)' == 'netstandard2.0' ">true</IsTrimmable>
-    <TrimMode>copyused</TrimMode>
+    <IsAotCompatible Condition=" '$(TargetFramework)' == 'netstandard2.0' ">true</IsAotCompatible>
+    <Nullable>enable</Nullable>
+    <LangVersion>9</LangVersion>    
+
     <!-- EmbedUntrackedSources for deterministic build -->
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <Title>NLog.Etw .NET Framework 4.5</Title>
-    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
-    <DebugType Condition=" '$(Configuration)' == 'Debug' ">Full</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net46' ">
@@ -60,15 +57,8 @@ See https://github.com/NLog/NLog.Etw for documentation of NLog target for ETW
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="5.2.2" />
+    <PackageReference Include="NLog" Version="6.0.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <!-- note: Microsoft.Diagnostics.Tracing.EventSource.Redist 1.x is the latest that support net45 -->
-    <PackageReference Include="Microsoft.Diagnostics.Tracing.EventSource.Redist" Version="1.1.28" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
