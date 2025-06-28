@@ -57,7 +57,7 @@ See https://github.com/NLog/NLog.Etw for documentation of NLog target for ETW
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="6.0.0" />
+    <PackageReference Include="NLog" Version="6.0.1" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
