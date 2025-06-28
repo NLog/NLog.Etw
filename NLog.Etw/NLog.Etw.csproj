@@ -11,7 +11,7 @@
 
     <PackageTags>NLog;ETW;tracing;windows;logging;log</PackageTags>
     <PackageReleaseNotes>
-- Added new EtwEventCounter-Target for writing to ETW EventCounter using WriteMetric
+- NLog v6.0.1 with AOT-support
 
 See https://github.com/NLog/NLog.Etw for documentation of NLog target for ETW
     </PackageReleaseNotes>
