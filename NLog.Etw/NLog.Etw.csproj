@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net46;net471;netstandard2.0</TargetFrameworks>
-    <VersionPrefix>6.1.1</VersionPrefix>
+    <VersionPrefix>6.2.2</VersionPrefix>
 
     <Description>NLog target for Windows Event Tracing - ETW</Description>
     <Authors>NLog</Authors>
@@ -12,7 +12,7 @@
 
     <PackageTags>NLog;ETW;tracing;windows;logging;log</PackageTags>
     <PackageReleaseNotes>
-- NLog v6.0.1 with AOT-support
+  - Update NLog dependency to 6.2.2
 
 See https://github.com/NLog/NLog.Etw for documentation of NLog target for ETW
     </PackageReleaseNotes>
@@ -59,7 +59,7 @@ See https://github.com/NLog/NLog.Etw for documentation of NLog target for ETW
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="6.1.1" />
+    <PackageReference Include="NLog" Version="6.2.2" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
