@@ -23,10 +23,10 @@ jobs:
         include:
           - os: windows-latest
             name: Build & test (Windows)
-            upload_coverage: true
+            upload_coverage: false
           - os: ubuntu-latest
             name: Build & test (Ubuntu)
-            upload_coverage: false
+            upload_coverage: true
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -42,15 +42,15 @@ jobs:
 
       - name: Test net471
         if: runner.os == 'Windows'
-        run: dotnet test NLog.Etw.Tests/NLog.Etw.Tests.csproj --configuration Release --framework net471 --no-restore --no-build --collect:"XPlat Code Coverage" --logger GitHubActions -- RunConfiguration.DisableAppDomain=true
+        run: dotnet test NLog.Etw.Tests/NLog.Etw.Tests.csproj --configuration Release --framework net471 --no-restore --no-build --logger GitHubActions -- RunConfiguration.DisableAppDomain=true
 
       - name: Test net8.0 (Windows)
         if: runner.os == 'Windows'
-        run: dotnet test NLog.Etw.Tests/NLog.Etw.Tests.csproj --configuration Release --framework net8.0 --no-restore --no-build --collect:"XPlat Code Coverage" --logger GitHubActions
+        run: dotnet test NLog.Etw.Tests/NLog.Etw.Tests.csproj --configuration Release --framework net8.0 --no-restore --no-build --logger GitHubActions
 
       - name: Test net8.0 (Ubuntu)
         if: runner.os == 'Linux'
-        run: dotnet test NLog.Etw.Tests/NLog.Etw.Tests.csproj --configuration Release --framework net8.0 --no-restore --no-build --logger GitHubActions
+        run: dotnet test NLog.Etw.Tests/NLog.Etw.Tests.csproj --configuration Release --framework net8.0 --no-restore --no-build --collect:"XPlat Code Coverage" --logger GitHubActions
 
       - name: Upload coverage to Codecov
         if: matrix.upload_coverage
