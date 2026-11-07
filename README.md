@@ -1,7 +1,7 @@
 # NLog.Etw
 
 [![Version](https://badge.fury.io/nu/NLog.Etw.svg)](https://www.nuget.org/packages/NLog.Etw)
-[![AppVeyor](https://img.shields.io/appveyor/ci/nlog/nlog-Etw/master.svg)](https://ci.appveyor.com/project/nlog/nlog-Etw/branch/master)
+[![CI](https://github.com/NLog/NLog.Etw/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/NLog/NLog.Etw/actions/workflows/ci.yml)
 [![codecov.io](https://codecov.io/github/NLog/NLog.Etw/coverage.svg?branch=master)](https://codecov.io/github/NLog/NLog.Etw?branch=master)
 
 NLog Target for writing logevents to Event Tracing for Windows (ETW).

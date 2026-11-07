@@ -18,6 +18,7 @@
 x64/
 x86/
 build/
+artifacts/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -136,6 +137,7 @@ publish/
 
 # NuGet Packages
 *.nupkg
+N.png
 # The packages folder can be ignored because of Package Restore
 **/packages/*
 # except build/, which is used as an MSBuild target.

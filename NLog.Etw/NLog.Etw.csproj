@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net46;net471;netstandard2.0</TargetFrameworks>
+    <VersionPrefix>6.1.1</VersionPrefix>
 
     <Description>NLog target for Windows Event Tracing - ETW</Description>
     <Authors>NLog</Authors>
@@ -23,7 +24,8 @@ See https://github.com/NLog/NLog.Etw for documentation of NLog target for ETW
     <RepositoryUrl>https://github.com/NLog/NLog.Etw.git</RepositoryUrl>
 
     <SignAssembly>true</SignAssembly>
-    <AssemblyVersion>6.0.0.0</AssemblyVersion>
+    <AssemblyVersion>$([System.Version]::Parse('$(VersionPrefix)').Major).0.0.0</AssemblyVersion>
+    <FileVersion>$(VersionPrefix).0</FileVersion>
     <AssemblyOriginatorKeyFile>NLog.snk</AssemblyOriginatorKeyFile>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
 
@@ -58,7 +60,6 @@ See https://github.com/NLog/NLog.Etw for documentation of NLog target for ETW
 
   <ItemGroup>
     <PackageReference Include="NLog" Version="6.1.1" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
